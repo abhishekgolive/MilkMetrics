@@ -1,35 +1,39 @@
 {
-  "name": "MilkMetrics",
-  "slug": "milk",
-  "owner": "abhishekgolive",
-  "version": "1.0.0",
-  "orientation": "portrait",
-  "icon": "./assets/icon.png",
-  "splash": {
-    "image": "./assets/icon.png",
-    "resizeMode": "contain",
-    "backgroundColor": "#ffffff"
-  },
-  "updates": {
-    "fallbackToCacheTimeout": 0
-  },
-  "assetBundlePatterns": ["**/*"],
-  "ios": {
-    "supportsTablet": true
-  },
-  "android": {
-    "package": "com.abhishekgolive.milkmetrics",
-    "versionCode": 1,
-    "permissions": []
-  },
-  "web": {
-    "favicon": "./assets/icon.png"
-  },
-  "sdkVersion": "48.0.0",
-  "platforms": ["ios", "android"],
-  "extra": {
-    "eas": {
-      "projectId": "16361949-e7f7-4193-af22-7ede7849b916"
+  "expo": {
+    "name": "MilkMetrics",
+    "slug": "milk",
+    "owner": "abhishekgolive",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.abhishekgolive.milkmetrics",
+      "versionCode": 1,
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    },
+    "sdkVersion": "48.0.0",
+    "platforms": ["ios", "android"],
+    "extra": {
+      "eas": {
+        "projectId": "f5e97eae-bbe9-4b2d-b986-b12932362d94"
+      }
     }
   }
 }
