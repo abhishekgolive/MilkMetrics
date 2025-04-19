@@ -11,7 +11,6 @@ import {
   Linking,
   ScrollView,
   SafeAreaView,
-  ImageBackground,
 } from 'react-native';
 
 export default function App() {
@@ -129,77 +128,75 @@ export default function App() {
   };
 
   return (
-    <ImageBackground source={require('./assets/india-bg.jpg')} style={{ flex: 1 }} resizeMode="cover">
-      <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          <Text style={styles.heading}>🐄 MilkMetrics</Text>
-          <Text style={styles.subheading}>Created by Abhishek Maheshwari</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.heading}>🐄 MilkMetrics</Text>
+        <Text style={styles.subheading}>Created by Abhishek Maheshwari</Text>
 
-          <Text style={styles.label}>Update Rate (₹/L):</Text>
-          <TextInput style={styles.input} keyboardType="numeric" value={rate} onChangeText={setRate} />
-          <Button title="Update Rate" color="#ff9800" onPress={updateRate} />
+        <Text style={styles.label}>Update Rate (₹/L):</Text>
+        <TextInput style={styles.input} keyboardType="numeric" value={rate} onChangeText={setRate} />
+        <Button title="Update Rate" color="#ff9800" onPress={updateRate} />
 
-          <Text style={styles.label}>Enter Quantity (L):</Text>
-          <TextInput style={styles.input} keyboardType="numeric" value={quantity} onChangeText={setQuantity} />
-          <Button title={isEditing ? 'Update Purchase' : 'Add Purchase'} color="#4caf50" onPress={addPurchase} />
+        <Text style={styles.label}>Enter Quantity (L):</Text>
+        <TextInput style={styles.input} keyboardType="numeric" value={quantity} onChangeText={setQuantity} />
+        <Button title={isEditing ? 'Update Purchase' : 'Add Purchase'} color="#4caf50" onPress={addPurchase} />
 
-          <Text style={styles.label}>Enter Payment (₹):</Text>
-          <TextInput style={styles.input} keyboardType="numeric" value={payment} onChangeText={setPayment} />
-          <Button title={isEditing ? 'Update Payment' : 'Add Payment'} color="#2196f3" onPress={addPayment} />
+        <Text style={styles.label}>Enter Payment (₹):</Text>
+        <TextInput style={styles.input} keyboardType="numeric" value={payment} onChangeText={setPayment} />
+        <Button title={isEditing ? 'Update Payment' : 'Add Payment'} color="#2196f3" onPress={addPayment} />
 
-          {/* Payment Apps */}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-            <Button
-              title="Google Pay"
-              color="#4285F4"
-              onPress={() => openApp('intent://upi/pay?pa=yourupi@okaxis&pn=MilkMetrics&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end')}
-            />
-            <Button title="PhonePe" color="#673ab7" onPress={() => openApp('phonepe://')} />
+        {/* Payment Apps */}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+          <Button
+            title="Google Pay"
+            color="#4285F4"
+            onPress={() => openApp('intent://upi/pay?pa=yourupi@okaxis&pn=MilkMetrics&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end')}
+          />
+          <Button title="PhonePe" color="#673ab7" onPress={() => openApp('phonepe://')} />
+        </View>
+
+        <Button title={showDashboard ? 'Hide Dashboard' : 'Show Dashboard'} onPress={() => setShowDashboard(!showDashboard)} />
+        {showDashboard && (
+          <View style={styles.dashboardBox}>
+            <Text style={styles.tableText}>Dashboard Summary</Text>
+            <Text style={styles.tableText}>Total Milk: {Math.round(totalMilk)} L</Text>
+            <Text style={styles.tableText}>Total Amount: ₹{Math.round(totalAmount)}</Text>
+            <Text style={styles.tableText}>Total Paid: ₹{Math.round(totalPaid)}</Text>
+            <Text style={styles.tableText}>Balance: ₹{Math.round(balance)}</Text>
           </View>
+        )}
 
-          <Button title={showDashboard ? 'Hide Dashboard' : 'Show Dashboard'} onPress={() => setShowDashboard(!showDashboard)} />
-          {showDashboard && (
-            <View style={styles.dashboardBox}>
-              <Text style={styles.tableText}>Dashboard Summary</Text>
-              <Text style={styles.tableText}>Total Milk: {Math.round(totalMilk)} L</Text>
-              <Text style={styles.tableText}>Total Amount: ₹{Math.round(totalAmount)}</Text>
-              <Text style={styles.tableText}>Total Paid: ₹{Math.round(totalPaid)}</Text>
-              <Text style={styles.tableText}>Balance: ₹{Math.round(balance)}</Text>
-            </View>
-          )}
+        <Button title={showEntriesTable ? 'Hide Summary Table' : 'Show Summary Table'} onPress={() => setShowEntriesTable(!showEntriesTable)} />
+        {showEntriesTable && (
+          <View style={styles.tableContainer}>
+            <Text style={styles.tableHeader}>Date</Text>
+            <Text style={styles.tableHeader}>Type</Text>
+            <Text style={styles.tableHeader}>Qty</Text>
+            <Text style={styles.tableHeader}>Amount</Text>
+            {filteredEntries.map((entry, index) => (
+              <View key={entry.id} style={styles.tableRow}>
+                <Text style={styles.tableCell}>{entry.date.slice(0, 10)}</Text>
+                <Text style={styles.tableCell}>{entry.type}</Text>
+                <Text style={styles.tableCell}>{entry.quantity || '-'}</Text>
+                <Text style={styles.tableCell}>{entry.amount}</Text>
+              </View>
+            ))}
+          </View>
+        )}
 
-          <Button title={showEntriesTable ? 'Hide Summary Table' : 'Show Summary Table'} onPress={() => setShowEntriesTable(!showEntriesTable)} />
-          {showEntriesTable && (
-            <View style={styles.tableContainer}>
-              <Text style={styles.tableHeader}>Date</Text>
-              <Text style={styles.tableHeader}>Type</Text>
-              <Text style={styles.tableHeader}>Qty</Text>
-              <Text style={styles.tableHeader}>Amount</Text>
-              {filteredEntries.map((entry, index) => (
-                <View key={entry.id} style={styles.tableRow}>
-                  <Text style={styles.tableCell}>{entry.date.slice(0, 10)}</Text>
-                  <Text style={styles.tableCell}>{entry.type}</Text>
-                  <Text style={styles.tableCell}>{entry.quantity || '-'}</Text>
-                  <Text style={styles.tableCell}>{entry.amount}</Text>
-                </View>
-              ))}
-            </View>
-          )}
-
-          <TouchableOpacity
-            onPress={() =>
-              Alert.alert('Confirm', 'Are you sure you want to delete all entries?', [
-                { text: 'Cancel' },
-                { text: 'Delete All', style: 'destructive', onPress: () => setEntries([]) },
-              ])
-            }
-            style={{ backgroundColor: 'red', padding: 10, borderRadius: 8, marginTop: 10, alignItems: 'center' }}
-          >
-            <Text style={{ color: 'white', fontWeight: 'bold' }}>Delete All Entries</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </SafeAreaView>
-    </ImageBackground>
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert('Confirm', 'Are you sure you want to delete all entries?', [
+              { text: 'Cancel' },
+              { text: 'Delete All', style: 'destructive', onPress: () => setEntries([]) },
+            ])
+          }
+          style={{ backgroundColor: 'red', padding: 10, borderRadius: 8, marginTop: 10, alignItems: 'center' }}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Delete All Entries</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -216,7 +213,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     marginBottom: 20,
-    color: '#eee',
+    color: '#555',
   },
   dashboardBox: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
